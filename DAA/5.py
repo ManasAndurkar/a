@@ -3,50 +3,63 @@
 
 N = 8
 
-def printSolution(board):
+
+b = [[0 for _ in range(N)] for _ in range(N)]
+
+
+def safe(board , r ,c):
     for i in range(N):
-        for j in range(N):
-            print(board[i][j], end=" ")
-        print()
-
-def isSafe(board, row, col):
-    for i in range(col):
-        if board[row][i] == 1:
+        if board[r][i] == 1 or board[i][c] == 1:
             return False
-
-    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
+    
+    #  less than r , c 
+    
+    i,j = r,c 
+    
+    while(i>=0 and j>=0):
         if board[i][j] == 1:
             return False
-
-    for i, j in zip(range(row, N, 1), range(col, -1, -1)):
+        i = i-1
+        j = j-1
+    
+    i,j = r,c  
+    while(i<N and j < N):
         if board[i][j] == 1:
             return False
-
+        i = i+1
+        j = j+1
+    i,j = r,c  
+    while(i>=0 and j < N):
+        if board[i][j] == 1:
+            return False
+        i = i-1
+        j = j+1
+    i,j = r,c  
+    while(i<N and j>=0):
+        if board[i][j] == 1:
+            return False
+        i = i+1
+        j = j-1
     return True
 
-def solveNQUtil(board, col):
-    if col >= N:
+b[0][1] = 1
+
+    
+# fixed_queen 
+
+
+def queen(b , c = 1):
+    if c >= N:
         return True
-
     for i in range(N):
-        if isSafe(board, i, col):
-            board[i][col] = 1
-
-            if solveNQUtil(board, col + 1) == True:
+        if safe(b , i , c):
+            b[i][c] = 1 
+            if queen(b , c+1):
                 return True
-
-            board[i][col] = 0
-
+            b[i][c] = 0
     return False
 
-def solveNQ():
-    board = [[0 for j in range(N)] for i in range(N)]
+print(queen(b))
 
-    if solveNQUtil(board, 0) == False:
-        print("Solution does not exist")
-        return False
-
-    printSolution(board)
-    return True
-
-solveNQ()
+for i in b:
+    print(i)

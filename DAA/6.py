@@ -8,38 +8,37 @@ import random
 
 comp = 0
 
-def quick_sort(arr):
+def quick_sort(l):  
     global comp
-    if len(arr) <= 1:
-        return arr
+    if not l:
+        return []
     else:
-        comp = comp +1 
-        pivot = arr[len(arr)//2]   # using middle element as pivot
-        less = [i for i in arr[1:] if i <= pivot]
-        greater = [i for i in arr[1:] if i > pivot]
-        return quick_sort(less) + [pivot] + quick_sort(greater)
+        comp = comp +  1
+        pivot = l[len(l) // 2]
+        less = [i for i in l if i < pivot]
+        greater = [i for i in l if i > pivot]
+        pivot  = [i for i in l if i == pivot]
+        return quick_sort(less) + pivot + quick_sort(greater)
 
 
-print(quick_sort([10, 5, 2, 3 , 8,78,165,2,65415,615,65,54,4]))
+print(quick_sort([5,2,1,3]))
 
 print("Total comparisons: ", comp)
 
 
+
 comp = 0
-# using random method
 
-def quick_sort(arr):
+def qsort(arr):
     global comp
-    if len(arr) <= 1:
-        return arr
-    else:
-        comp = comp +1 
-        pivot = random.choice(arr)
-        less = [i for i in arr if i < pivot]
-        greater = [i for i in arr if i > pivot]
-        return quick_sort(less) + [pivot] + quick_sort(greater)
+    if not arr: 
+        return []
+    comp = comp +  1
+    pivot = arr[random.choice(range(0, len(arr)))]
+    less = qsort([x for x in arr if x < pivot])
+    greater = qsort([x for x in arr if x > pivot])
+    pivot  = [i for i in arr if i == pivot]
+    return less + pivot + greater
 
-        
-print(quick_sort([10, 5, 2, 3 , 8,78,165,2,65415,615,65,54,4]))
-
+print(qsort([5,2,1,3]))
 print("Total comparisons: ", comp)
